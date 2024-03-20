@@ -1,7 +1,7 @@
 variables:
-- group: My variable group
-- name: TestVar
-  value: 'TestVal'
+  - group: My variable group
+  - name: TestVar
+    value: 'TestVal'
 
 steps:
 
