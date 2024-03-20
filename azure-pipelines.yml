@@ -1,8 +1,22 @@
-variables:
-- group: my-variable-group
-- name: my-passed-variable
-  value: $[variables.myhello] # uses runtime expression
-
 steps:
-- script: echo $(myhello) # uses macro syntax
-- script: echo $(my-passed-variable)
+
+- task: BatchScript@1
+  inputs:
+    filename: 'C:/MSBuild.ext'
+    arguments: '/t:restore'
+
+- task: BatchScript@1
+  inputs:
+    filename: 'C:/nuget.ext'
+    arguments: 'restore'
+
+- task: BatchScript@1
+  inputs:
+    filename: 'C:/MSBuild.ext'
+    arguments: '/p:DeployOnBuild=true /p:WebPublishMethod=package'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\APICoreDeploy'
+    ArtifactName: 'APICoreDeploy'
+    publishLocation: 'Container'
