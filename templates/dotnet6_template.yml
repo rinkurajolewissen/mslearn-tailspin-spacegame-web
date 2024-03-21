@@ -1,0 +1,31 @@
+parameters:  
+  msbuild_exe: 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\amd64\MSBuild.exe'
+  nuget_exe: '"$(Agent.HomeDirectory)\externals\nuget\nuget.exe"'
+  arguments1: ''
+  arguments2: ''
+  arguments3: ''
+  pathtopublish: ''
+  artifactname: ''
+
+steps:
+
+- task: BatchScript@1
+  inputs:
+    filename: '${{ parameters.msbuild_exe }}'
+    arguments: '${{ parameters.arguments1 }}'
+
+- task: BatchScript@1
+  inputs:
+    filename: '${{ parameters.nuget_exe }}'
+    arguments: '${{ parameters.arguments2 }}'
+
+- task: BatchScript@1
+  inputs:
+    filename: '${{ parameters.msbuild_exe }}'
+    arguments: '${{ parameters.arguments3 }}'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '${{ parameters.pathtopublish }}'
+    ArtifactName: '${{ parameters.artifactname }}'
+    publishLocation: 'Container'
